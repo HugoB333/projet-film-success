@@ -1,6 +1,16 @@
 import streamlit as st
+import streamlit as st
+st.write("✅ Lancement réussi — app.py commence bien.")
+st.write("📦 Étape 1 : chargement du modèle...")
 import pandas as pd
 import joblib
+
+import joblib
+try:
+    model = joblib.load("model/model.pkl")
+    st.write("✅ Modèle chargé avec succès.")
+except Exception as e:
+    st.error(f"❌ Erreur lors du chargement du modèle : {e}")
 
 # Message de test visible dès le lancement
 st.title("🎬 Prédiction de succès d'un film")
