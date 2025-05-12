@@ -41,6 +41,17 @@ input_data = {
 }
 df_input = pd.DataFrame([input_data])
 
+# Charger les colonnes utilisées à l'entraînement
+expected_cols = joblib.load("model/columns.pkl")
+
+# Ajouter les colonnes manquantes (remplies avec 0)
+for col in expected_cols:
+    if col not in df_input.columns:
+        df_input[col] = 0
+
+# Réordonner les colonnes comme à l'entraînement
+df_input = df_input[expected_cols]
+
 # Bouton de prédiction
 if st.button("Prédire"):
     try:
