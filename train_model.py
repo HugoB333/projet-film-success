@@ -1,37 +1,33 @@
+# 🔧 Nouveau `train_model.py` — pour prédiction du revenu
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import joblib
 
-# Charger les données
+# Charger le dataset
 df = pd.read_csv("data/Cleaned_csv.csv")
 
-# Supprimer les lignes avec des valeurs manquantes
+# Nettoyage de base
 df = df.dropna()
 
-# Définir les features à garder
-features = [
-    "Genre", "Director", "Actors", "Year",
-    "Runtime (Minutes)", "Rating", "Metascore", "Success"
-]
+# Liste des features explicatives utiles
+features = ["Genre", "Director", "Actors", "Year", "Runtime (Minutes)", "Rating", "Metascore"]
 
 X = df[features]
 y = df["Revenue (Millions)"]
 
-# Encodage des variables catégorielles
-X = pd.get_dummies(X)
+# Encodage des catégories en one-hot
+X_encoded = pd.get_dummies(X)
 
-# Split train/test
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+# Train/test split
+X_train, X_test, y_train, y_test = train_test_split(X_encoded, y, test_size=0.2, random_state=42)
 
-# Entraîner le modèle
+# Entraînement
 model = RandomForestRegressor()
 model.fit(X_train, y_train)
 
-# Sauvegarder le modèle et les colonnes
+# Sauvegarde du modèle et des colonnes utilisées
 joblib.dump(model, "model/model.pkl")
-joblib.dump(X.columns.tolist(), "model/columns.pkl")
+joblib.dump(X_encoded.columns.tolist(), "model/columns.pkl")
 
-print("✅ Modèle entraîné avec les bonnes features et sauvegardé.")
+print("✅ Modèle entraîné et sauvegardé pour la prédiction du revenu.")
