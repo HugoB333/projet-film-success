@@ -1,4 +1,4 @@
-# 🔧 Nouveau `train_model.py` — pour prédiction du revenu
+# 🔧 Nouveau `train_model.py` corrigé pour prédiction du revenu
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -10,9 +10,14 @@ df = pd.read_csv("data/Cleaned_csv.csv")
 # Nettoyage de base
 df = df.dropna()
 
-# Liste des features explicatives utiles
-features = ["Genre", "Director", "Actors", "Year", "Runtime (Minutes)", "Rating", "Metascore"]
+# Liste des features explicatives pertinentes UNIQUEMENT
+features = [
+    "Genre", "Director", "Actors",
+    "Year", "Runtime (Minutes)",
+    "Rating", "Metascore"
+]
 
+# Définir X et y
 X = df[features]
 y = df["Revenue (Millions)"]
 
@@ -22,7 +27,7 @@ X_encoded = pd.get_dummies(X)
 # Train/test split
 X_train, X_test, y_train, y_test = train_test_split(X_encoded, y, test_size=0.2, random_state=42)
 
-# Entraînement
+# Entraînement du modèle
 model = RandomForestRegressor()
 model.fit(X_train, y_train)
 
