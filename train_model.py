@@ -30,3 +30,5 @@ model.fit(X_train, y_train)
 joblib.dump(model, "model/model.pkl")
 
 print("✅ Modèle entraîné et sauvegardé avec succès.")
+# Sauvegarder aussi les colonnes utilisées à l'entraînement
+joblib.dump(X.columns.tolist(), "model/columns.pkl")
